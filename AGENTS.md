@@ -137,7 +137,18 @@ the upload from ~640 KB across hundreds of files to 6 files and 268 KB. Without
 it you publish the Java sources the source map refers to.
 
 `wrangler` 4.129.1 fails to install (it depends on an unpublished miniflare
-alpha); pin `npx wrangler@4.129.0` until that clears.
+alpha); pin `npx wrangler@4.129.0` until that clears. The workflow pins the same
+version.
+
+Pushing to `master` deploys automatically via `.github/workflows/deploy.yml`,
+which needs two repository secrets:
+
+| Secret | |
+| --- | --- |
+| `CLOUDFLARE_ACCOUNT_ID` | the account id from `wrangler whoami` |
+| `CLOUDFLARE_API_TOKEN` | a token with **Workers Scripts: Edit** and, for the custom domain, **Zone: Read** and **DNS: Edit** on `clementallen.com` |
+
+The workflow can also be run by hand from the Actions tab.
 
 ## Traps
 
