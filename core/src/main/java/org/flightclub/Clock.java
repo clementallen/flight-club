@@ -11,23 +11,40 @@ package org.flightclub;
 import java.util.Vector;
 
 /**
- * Clock has a thread and ticks
+ * Clock ticks, driven by whatever frame loop the platform provides
  */
-public class Clock implements Runnable {
+public class Clock {
 
     public interface Observer {
         public void tick(float delta);
     }
 
-    Thread ticker = null;
+    /**
+     * the platform's frame loop - a thread on the desktop, animation
+     * frames in the browser. It calls tick() once per frame.
+     */
+    public interface Driver {
+        void start(Clock clock);
+        void stop();
+    }
+
     final int sleepTime;
     final Vector<Observer> observers = new Vector<>();
     public long last = 0;
 
     boolean paused = false;
+    private Driver driver = null;
 
     Clock(int t) {
         sleepTime = t;
+    }
+
+    public int getSleepTime() {
+        return sleepTime;
+    }
+
+    public void setDriver(Driver driver) {
+        this.driver = driver;
     }
 
     void addObserver(Observer observer) {
@@ -39,43 +56,35 @@ public class Clock implements Runnable {
     }
 
     public void start() {
-        if (ticker == null)
-            ticker = new Thread(this);
-        ticker.start();
         last = System.currentTimeMillis();
+        if (driver != null) {
+            driver.start(this);
+        }
     }
 
     public void stop() {
-        if (ticker != null) ticker.stop();
-        ticker = null;
+        if (driver != null) {
+            driver.stop();
+        }
     }
 
-    @Override
-    public void run() {
-        while (ticker != null) {
-            long now = System.currentTimeMillis();
-            float delta = (now - last) / 1000.0f;
-            last = now;
+    /**
+     * called by the driver once per frame
+     */
+    public void tick() {
+        long now = System.currentTimeMillis();
+        float delta = (now - last) / 1000.0f;
+        last = now;
 
-            for (int i = 0; i < observers.size(); i++) {
-                /*
-                    hack - when paused still tick the modelviewer so
-					we can change our POV and unpause
-				*/
-                if (i == 0 || !paused) {
-                    Observer c = observers.elementAt(i);
-                    c.tick(delta);
-                }
-            }
-
-            long timeLeft = sleepTime + now - System.currentTimeMillis();
-            if (timeLeft > 0) {
-                try {
-                    Thread.sleep(timeLeft);
-                } catch (InterruptedException e) {
-                }
+        for (int i = 0; i < observers.size(); i++) {
+            /*
+                hack - when paused still tick the modelviewer so
+                we can change our POV and unpause
+            */
+            if (i == 0 || !paused) {
+                Observer c = observers.elementAt(i);
+                c.tick(delta);
             }
         }
-        ticker = null;
     }
 }

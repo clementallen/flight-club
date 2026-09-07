@@ -8,7 +8,7 @@
 
 package org.flightclub;
 
-import java.awt.event.KeyEvent;
+import org.flightclub.compat.KeyEvent;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Vector;

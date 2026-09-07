@@ -1,14 +1,8 @@
 apply plugin: 'java'
-apply plugin: 'application'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
-application {
-    mainClass = 'org.flightclub.XCGameFrame'
-}
-
 dependencies {
     implementation project(':core')
-    implementation project(':awt')
 }

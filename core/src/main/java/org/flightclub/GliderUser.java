@@ -10,7 +10,7 @@ package org.flightclub;
 
 import org.flightclub.compat.Color;
 
-import java.awt.event.KeyEvent;
+import org.flightclub.compat.KeyEvent;
 
 /**
  * a glider that the user may control

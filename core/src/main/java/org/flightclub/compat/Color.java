@@ -1,7 +1,9 @@
 package org.flightclub.compat;
 
 public class Color {
-    private final java.awt.Color c;
+    private final int r;
+    private final int g;
+    private final int b;
 
 
     /**
@@ -70,22 +72,20 @@ public class Color {
     public final static Color BLUE = new Color(0, 0, 255);
 
     public Color(int r, int g, int b) {
-        this.c = new java.awt.Color(r, g, b);
-    }
-
-    public java.awt.Color getColor() {
-        return c;
+        this.r = r;
+        this.g = g;
+        this.b = b;
     }
 
     public int getRed() {
-        return c.getRed();
+        return r;
     }
 
     public int getGreen() {
-        return c.getGreen();
+        return g;
     }
 
     public int getBlue() {
-        return c.getBlue();
+        return b;
     }
 }

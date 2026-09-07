@@ -27,6 +27,7 @@ public class XCGameFrame extends Frame {
 
         panel.init();
         app.init(new FrameInterface(this, panel));
+        app.clock.setDriver(new ThreadClockDriver());
         app.start();
 
         this.addWindowListener(new WindowAdapter() {
@@ -38,12 +39,12 @@ public class XCGameFrame extends Frame {
         this.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                app.eventManager.addEvent(e);
+                app.eventManager.addEvent(AwtKeys.convert(e));
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                app.eventManager.addEvent(e);
+                app.eventManager.addEvent(AwtKeys.convert(e));
             }
         });
     }

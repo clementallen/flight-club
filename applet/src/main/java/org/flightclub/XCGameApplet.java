@@ -24,6 +24,7 @@ public class XCGameApplet extends Applet {
 
         panel.init();
         app.init(new AppletInterface(this, panel));
+        app.clock.setDriver(new ThreadClockDriver());
 
         this.requestFocus();
     }

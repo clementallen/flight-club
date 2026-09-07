@@ -12,7 +12,7 @@ import org.flightclub.compat.Color;
 import org.flightclub.compat.Font;
 import org.flightclub.compat.Graphics;
 
-import java.awt.event.KeyEvent;
+import org.flightclub.compat.KeyEvent;
 import java.util.Vector;
 
 public class XCGame implements EventManager.Interface, Clock.Observer {

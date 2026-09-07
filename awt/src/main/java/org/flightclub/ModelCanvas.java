@@ -67,12 +67,12 @@ public class ModelCanvas extends Canvas implements Clock.Observer {
         this.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                app.eventManager.addEvent(e);
+                app.eventManager.addEvent(AwtKeys.convert(e));
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                app.eventManager.addEvent(e);
+                app.eventManager.addEvent(AwtKeys.convert(e));
             }
         });
     }

@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+    id 'org.teavm' version '0.15.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 17
+targetCompatibility = 17
+
+dependencies {
+    implementation project(':core')
+    implementation teavm.libs.jso
+    implementation teavm.libs.jsoApis
+}
+
+teavm.js {
+    mainClass = 'org.flightclub.XCGameWeb'
+    targetFileName = 'flightclub.js'
+    obfuscated = false
+    sourceMap = true
+}
+
+/**
+ * Everything the browser needs, in one directory
+ */
+tasks.register('webApp', Sync) {
+    dependsOn tasks.named('generateJavaScript')
+
+    from('src/main/webapp')
+    from(layout.buildDirectory.dir('generated/teavm/js'))
+
+    into layout.buildDirectory.dir('webApp')
+}
