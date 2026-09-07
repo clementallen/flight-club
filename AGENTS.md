@@ -108,6 +108,17 @@ compiled at 17 (TeaVM's own classlib requires it).
 - `obfuscated`/`sourceMap` are set in `web/build.gradle`; the checked-in settings
   favour debugging, so flip them for a real deploy.
 
+**The tick rate is the simulation's speed.** The delta migration is half done:
+`XCGame.time`, `Cloud`, `ThermalTrigger` and `Variometer` use the `delta` they
+are handed, but `FlyingDot` and `Glider` move by `app.timePerFrame` per tick and
+`CameraMan.tick()` takes no delta at all. So a front end must tick at
+`Clock.getSleepTime()` (40 ms, 25 Hz), not at whatever rate its frame loop runs.
+`AnimationFrameClockDriver` accumulates real time and ticks at that rate rather
+than once per animation frame — ticking per frame runs the gliders at 60 or
+120 Hz, which flies them into the ground in seconds while the clock and clouds
+carry on in real time. Finishing the delta migration would remove the
+constraint.
+
 Canvas differences worth remembering when touching `CanvasGraphics`:
 
 - AWT's `fillOval` takes the bounding box, canvas `arc` takes a centre and
