@@ -16,11 +16,18 @@ dependencies {
     implementation teavm.libs.jsoApis
 }
 
+/**
+ * -Pproduction builds what gets deployed: smaller, and without the Java
+ * sources that the source map drags along. Off by default, so a plain
+ * build stays debuggable.
+ */
+def production = providers.gradleProperty('production').present
+
 teavm.js {
     mainClass = 'org.flightclub.XCGameWeb'
     targetFileName = 'flightclub.js'
-    obfuscated = false
-    sourceMap = true
+    obfuscated = production
+    sourceMap = !production
 }
 
 /**

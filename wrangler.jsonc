@@ -1,0 +1,18 @@
+{
+  // Static deployment of the browser build. There is no Worker script -
+  // Cloudflare just serves the assets that ./gradlew :web:webApp produces.
+  //
+  //   JAVA_HOME=/path/to/jdk17 ./gradlew :web:webApp -Pproduction
+  //   npx wrangler deploy
+  "name": "flightclub",
+  "compatibility_date": "2026-09-07",
+  "assets": {
+    "directory": "./web/build/webApp"
+  },
+  "routes": [
+    {
+      "pattern": "flightclub.clementallen.com",
+      "custom_domain": true
+    }
+  ]
+}

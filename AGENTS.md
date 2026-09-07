@@ -121,6 +121,24 @@ Known gaps in the web build: no touch controls, the canvas is fixed at 640×490
 rather than resizing, and browsers will not play the vario until the user has
 interacted with the page.
 
+## Deploying
+
+Live at <https://flightclub.clementallen.com>, served by Cloudflare Workers
+straight from the assets in `web/build/webApp`. There is no Worker script —
+`wrangler.jsonc` is an assets-only config.
+
+```bash
+JAVA_HOME=/path/to/jdk17 ./gradlew :web:webApp -Pproduction
+npx wrangler deploy
+```
+
+`-Pproduction` matters: it turns obfuscation on and source maps off, which cuts
+the upload from ~640 KB across hundreds of files to 6 files and 268 KB. Without
+it you publish the Java sources the source map refers to.
+
+`wrangler` 4.129.1 fails to install (it depends on an unpublished miniflare
+alpha); pin `npx wrangler@4.129.0` until that clears.
+
 ## Traps
 
 **Line endings are mixed.** 31 of the 44 Java files outside `web` are CRLF, the
