@@ -10,7 +10,7 @@ public class AwtGraphics implements Graphics {
 
     @Override
     public void setColor(Color color) {
-        g.setColor(color.getColor());
+        g.setColor(new java.awt.Color(color.getRed(), color.getGreen(), color.getBlue()));
     }
 
     @Override
@@ -20,7 +20,8 @@ public class AwtGraphics implements Graphics {
 
     @Override
     public void setFont(Font font) {
-        g.setFont(font.getFont());
+        // compat.Font style constants match those of java.awt.Font
+        g.setFont(new java.awt.Font(font.getName(), font.getStyle(), font.getSize()));
     }
 
     @Override
